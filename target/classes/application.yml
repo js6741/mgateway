@@ -1,0 +1,74 @@
+server:
+  port: 8088
+
+---
+
+spring:
+  profiles: default
+  cloud:
+    gateway:
+      routes:
+        - id: ground
+          uri: http://localhost:8081
+          predicates:
+            - Path=/grounds/** 
+        - id: schedule
+          uri: http://localhost:8082
+          predicates:
+            - Path=/schedules/** 
+        - id: book
+          uri: http://localhost:8083
+          predicates:
+            - Path=/books/** 
+        - id: status
+          uri: http://localhost:8084
+          predicates:
+            - Path= /statuses/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+
+---
+
+spring:
+  profiles: docker
+  cloud:
+    gateway:
+      routes:
+        - id: ground
+          uri: http://ground:8080
+          predicates:
+            - Path=/grounds/** 
+        - id: schedule
+          uri: http://schedule:8080
+          predicates:
+            - Path=/schedules/** 
+        - id: book
+          uri: http://book:8080
+          predicates:
+            - Path=/books/** 
+        - id: status
+          uri: http://status:8080
+          predicates:
+            - Path= /statuses/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+server:
+  port: 8080
